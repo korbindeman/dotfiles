@@ -1,0 +1,16 @@
+/*
+!.gitignore
+
+!fish
+fish/fish_variables
+
+!kitty
+
+!lazygit
+lazygit/state.yml
+
+!nvim
+nvim/lazy-lock.json
+
+!tmux
+tmux/plugins
