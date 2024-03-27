@@ -2,7 +2,6 @@
 !.gitignore
 
 !fish
-fish/fish_variables
 
 !kitty
 
@@ -14,3 +13,7 @@ nvim/lazy-lock.json
 
 !tmux
 tmux/plugins
+fish/completions
+fish/conf.d
+fish/functions
+fish/fish_variables
