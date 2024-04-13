@@ -61,20 +61,17 @@ return {
 
 			-- LSP server setup
 			-- :help lspconfig-all or https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-			require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls())
-			require("lspconfig").rust_analyzer.setup({
-				settings = {
-					["rust-analyzer"] = {
-						cargo = {
-							allFeatures = true,
-						},
-					},
-				},
-			})
-			require("lspconfig").tsserver.setup({})
-			require("lspconfig").emmet_language_server.setup({})
-			require("lspconfig").tailwindcss.setup({})
-			require("lspconfig").svelte.setup({})
+			local lsp = require("lspconfig")
+
+			lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
+			lsp.rust_analyzer.setup({})
+			lsp.wgsl_analyzer.setup({})
+			lsp.tsserver.setup({})
+			lsp.emmet_language_server.setup({})
+			lsp.tailwindcss.setup({})
+			lsp.svelte.setup({})
+			lsp.hls.setup({})
+			lsp.gleam.setup({})
 		end,
 	},
 }
