@@ -63,15 +63,16 @@ return {
 			-- :help lspconfig-all or https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			local lsp = require("lspconfig")
 
+			lsp.emmet_language_server.setup({})
+			lsp.gleam.setup({})
+			lsp.hls.setup({})
+			lsp.jsonls.setup({})
 			lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
 			lsp.rust_analyzer.setup({})
-			lsp.wgsl_analyzer.setup({})
-			lsp.tsserver.setup({})
-			lsp.emmet_language_server.setup({})
-			lsp.tailwindcss.setup({})
 			lsp.svelte.setup({})
-			lsp.hls.setup({})
-			lsp.gleam.setup({})
+			lsp.tailwindcss.setup({})
+			lsp.tsserver.setup({})
+			lsp.wgsl_analyzer.setup({})
 		end,
 	},
 }

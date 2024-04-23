@@ -19,10 +19,12 @@ return {
 			-- Use a sub-list to run only the first available formatter
 			css = { { "prettierd", "prettier" } },
 			html = { { "prettierd", "prettier" } },
+			json = { { "prettierd", "prettier" } },
 			javascript = { { "prettierd", "prettier" } },
 			javascriptreact = { { "prettierd", "prettier" } },
 			typescript = { { "prettierd", "prettier" } },
 			typescriptreact = { { "prettierd", "prettier" } },
+			haskell = { "fourmolu" },
 		},
 		format_on_save = {
 			-- These options will be passed to conform.format()

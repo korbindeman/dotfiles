@@ -31,7 +31,7 @@ return {
 		},
 		filters = {
 			dotfiles = true,
-			custom = { "Cargo.lock", "bun.lockb" },
+			custom = { "Cargo.lock", "bun.lockb", "package-lock.json" },
 		},
 		on_attach = function(bufnr)
 			local api = require("nvim-tree.api")
