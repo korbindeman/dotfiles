@@ -63,7 +63,16 @@ return {
 			-- :help lspconfig-all or https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			local lsp = require("lspconfig")
 
-			lsp.emmet_language_server.setup({})
+			lsp.emmet_ls.setup({
+				-- this is for solid.js
+				init_options = {
+					jsx = {
+						options = {
+							["markup.attributes"] = { className = "class" },
+						},
+					},
+				},
+			})
 			lsp.gleam.setup({})
 			lsp.hls.setup({})
 			lsp.jsonls.setup({})
@@ -73,6 +82,7 @@ return {
 			lsp.tailwindcss.setup({})
 			lsp.tsserver.setup({})
 			lsp.wgsl_analyzer.setup({})
+			lsp.cssls.setup({})
 		end,
 	},
 }

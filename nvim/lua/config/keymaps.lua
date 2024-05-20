@@ -38,18 +38,6 @@ vim.keymap.set("i", "kj", "<ESC>", opts)
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 
--- Move text up and down
-vim.keymap.set("v", "<A-j>", ":m .+1<CR>==", opts)
-vim.keymap.set("v", "<A-k>", ":m .-2<CR>==", opts)
-vim.keymap.set("v", "p", '"_dP', opts)
-
--- Visual Block --
--- Move text up and down
-vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", opts)
-vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", opts)
-vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
-
 -- Terminal --
 -- Better terminal navigation
 vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
