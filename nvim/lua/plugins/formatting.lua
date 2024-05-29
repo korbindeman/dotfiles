@@ -17,13 +17,13 @@ return {
 			-- Conform will run multiple formatters sequentially
 			python = { "isort", "black" },
 			-- Use a sub-list to run only the first available formatter
-			css = { { "prettierd", "prettier" } },
-			html = { { "prettierd", "prettier" } },
-			json = { { "prettierd", "prettier" } },
-			javascript = { { "prettierd", "prettier" } },
-			javascriptreact = { { "prettierd", "prettier" } },
-			typescript = { { "prettierd", "prettier" } },
-			typescriptreact = { { "prettierd", "prettier" } },
+			css = { "prettier" },
+			html = { "prettier" },
+			json = { "prettier" },
+			javascript = { "prettier" },
+			javascriptreact = { "prettier" },
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
 			haskell = { "fourmolu" },
 		},
 		format_on_save = {

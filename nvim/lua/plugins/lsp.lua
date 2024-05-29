@@ -64,11 +64,11 @@ return {
 			local lsp = require("lspconfig")
 
 			lsp.emmet_ls.setup({
-				-- this is for solid.js
 				init_options = {
 					jsx = {
 						options = {
-							["markup.attributes"] = { className = "class" },
+							-- ["markup.attributes"] = { className = "class" }, -- this is for solid.js
+							["output.selfClosingStyle"] = "xhtml",
 						},
 					},
 				},
