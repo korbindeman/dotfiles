@@ -53,6 +53,8 @@ return {
 				-- see :help lsp-zero-keybindings
 				-- to learn the available actions
 				lsp_zero.default_keymaps({ buffer = bufnr })
+
+				-- client.server_capabilities.semanticTokensProvider = nil
 			end)
 
 			vim.diagnostic.config({
@@ -73,6 +75,7 @@ return {
 					},
 				},
 			})
+			lsp.pyright.setup({})
 			lsp.gleam.setup({})
 			lsp.hls.setup({})
 			lsp.jsonls.setup({})
