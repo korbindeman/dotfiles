@@ -1,8 +1,5 @@
 return {
 	"echasnovski/mini.nvim",
-	dependencies = {
-		"JoosepAlviste/nvim-ts-context-commentstring",
-	},
 	version = "*",
 	init = function()
 		require("mini.comment").setup({
