@@ -1,6 +1,7 @@
 return {
 	{
 		"VonHeikemen/lsp-zero.nvim",
+		dependencies = {"williamboman/mason.nvim","williamboman/mason-lspconfig.nvim"},
 		branch = "v3.x",
 		lazy = true,
 		config = false,
@@ -61,31 +62,43 @@ return {
 				virtual_text = false,
 			})
 
+			require('mason').setup({})
+			require('mason-lspconfig').setup({
+			-- Replace the language servers listed here
+			-- with the ones you want to install
+			ensure_installed = {'tsserver', 'rust_analyzer', 'prettier', 'lua-language-server'},
+			handlers = {
+				function(server_name)
+				require('lspconfig')[server_name].setup({})
+				end,
+			},
+			})
+
 			-- LSP server setup
 			-- :help lspconfig-all or https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-			local lsp = require("lspconfig")
-
-			lsp.emmet_ls.setup({
-				init_options = {
-					jsx = {
-						options = {
-							-- ["markup.attributes"] = { className = "class" }, -- this is for solid.js
-							["output.selfClosingStyle"] = "xhtml",
-						},
-					},
-				},
-			})
-			lsp.pyright.setup({})
-			lsp.gleam.setup({})
-			lsp.hls.setup({})
-			lsp.jsonls.setup({})
-			lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
-			lsp.rust_analyzer.setup({})
-			lsp.svelte.setup({})
-			lsp.tailwindcss.setup({})
-			lsp.tsserver.setup({})
-			lsp.wgsl_analyzer.setup({})
-			lsp.cssls.setup({})
+			-- local lsp = require("lspconfig")
+			--
+			-- lsp.emmet_ls.setup({
+			-- 	init_options = {
+			-- 		jsx = {
+			-- 			options = {
+			-- 				-- ["markup.attributes"] = { className = "class" }, -- this is for solid.js
+			-- 				["output.selfClosingStyle"] = "xhtml",
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
+			-- lsp.pyright.setup({})
+			-- lsp.gleam.setup({})
+			-- lsp.hls.setup({})
+			-- lsp.jsonls.setup({})
+			-- lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
+			-- lsp.rust_analyzer.setup({})
+			-- lsp.svelte.setup({})
+			-- lsp.tailwindcss.setup({})
+			-- lsp.tsserver.setup({})
+			-- lsp.wgsl_analyzer.setup({})
+			-- lsp.cssls.setup({})
 		end,
 	},
 }
