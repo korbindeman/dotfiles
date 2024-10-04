@@ -1,7 +1,7 @@
 return {
 	{
 		"VonHeikemen/lsp-zero.nvim",
-		dependencies = {"williamboman/mason.nvim","williamboman/mason-lspconfig.nvim"},
+		dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
 		branch = "v3.x",
 		lazy = true,
 		config = false,
@@ -64,14 +64,11 @@ return {
 
 			require('mason').setup({})
 			require('mason-lspconfig').setup({
-			-- Replace the language servers listed here
-			-- with the ones you want to install
-			ensure_installed = {'tsserver', 'rust_analyzer', 'prettier', 'lua-language-server'},
-			handlers = {
-				function(server_name)
-				require('lspconfig')[server_name].setup({})
-				end,
-			},
+				handlers = {
+					function(server_name)
+						require('lspconfig')[server_name].setup({})
+					end,
+				},
 			})
 
 			-- LSP server setup
