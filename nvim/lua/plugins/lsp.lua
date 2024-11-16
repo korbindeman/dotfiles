@@ -62,18 +62,33 @@ return {
 				virtual_text = false,
 			})
 
-			require('mason').setup({})
-			require('mason-lspconfig').setup({
+			require("mason").setup({ ui = {
+				border = "single",
+			} })
+			require("mason-lspconfig").setup({
 				handlers = {
 					function(server_name)
-						require('lspconfig')[server_name].setup({})
+						require("lspconfig")[server_name].setup({})
 					end,
+				},
+			})
+
+			local lsp = require("lspconfig")
+
+			lsp.emmet_language_server.setup({
+				filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
+				init_options = {
+					html = {
+						options = {
+							-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+							["bem.enabled"] = true,
+						},
+					},
 				},
 			})
 
 			-- LSP server setup
 			-- :help lspconfig-all or https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-			-- local lsp = require("lspconfig")
 			--
 			-- lsp.emmet_ls.setup({
 			-- 	init_options = {
@@ -89,13 +104,21 @@ return {
 			-- lsp.gleam.setup({})
 			-- lsp.hls.setup({})
 			-- lsp.jsonls.setup({})
-			-- lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
+			lsp.lua_ls.setup(lsp_zero.nvim_lua_ls())
 			-- lsp.rust_analyzer.setup({})
 			-- lsp.svelte.setup({})
 			-- lsp.tailwindcss.setup({})
 			-- lsp.tsserver.setup({})
 			-- lsp.wgsl_analyzer.setup({})
 			-- lsp.cssls.setup({})
+		end,
+	},
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup()
+
+			vim.keymap.set("n", "<leader>rn", ":IncRename ")
 		end,
 	},
 }
