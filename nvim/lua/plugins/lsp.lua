@@ -20,12 +20,6 @@ return {
 				lsp.default_keymaps({ buffer = bufnr })
 			end)
 
-			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-
-			require("lspconfig").emmet_language_server.setup({
-				filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
-			})
-
 			local cmp = require("cmp")
 			local cmp_action = require("lsp-zero").cmp_action()
 
@@ -48,6 +42,12 @@ return {
 						require("lspconfig")[server_name].setup({})
 					end,
 				},
+			})
+
+			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+
+			require("lspconfig").emmet_language_server.setup({
+				filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
 			})
 		end,
 	},
