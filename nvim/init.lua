@@ -15,7 +15,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local colorscheme = "gruvbox"
+local colorscheme = "moonfly"
 
 require("lazy").setup("plugins", {
 	install = {
