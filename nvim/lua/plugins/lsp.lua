@@ -11,7 +11,6 @@ return {
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
 			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "L3MON4D3/LuaSnip" },
 		},
 		config = function()
 			local lsp = require("lsp-zero").preset({})
@@ -21,14 +20,19 @@ return {
 			end)
 
 			local cmp = require("cmp")
-			local cmp_action = require("lsp-zero").cmp_action()
 
 			cmp.setup({
+				sources = {
+					{ name = "nvim_lsp" },
+				},
+				snippet = {
+					expand = function(args)
+						vim.snippet.expand(args.body)
+					end,
+				},
 				mapping = cmp.mapping.preset.insert({
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
-					["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
 				}),
-				formatting = lsp.cmp_format({ details = true }),
 			})
 
 			lsp.setup()
