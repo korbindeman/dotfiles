@@ -1,59 +1,88 @@
 return {
 	{
-		"VonHeikemen/lsp-zero.nvim",
-		branch = "v3.x",
+		"neovim/nvim-lspconfig",
 		dependencies = {
-			-- LSP Support
-			{ "neovim/nvim-lspconfig" },
-			{ "williamboman/mason.nvim" },
-			{ "williamboman/mason-lspconfig.nvim" },
-
-			-- Autocompletion
-			{ "hrsh7th/nvim-cmp" },
-			{ "hrsh7th/cmp-nvim-lsp" },
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 		},
 		config = function()
-			local lsp = require("lsp-zero").preset({})
+			-- note: diagnostics are not exclusive to lsp servers
+			-- so these can be global keybindings
+			vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
+			vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
+			vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>")
 
-			lsp.on_attach(function(client, bufnr)
-				lsp.default_keymaps({ buffer = bufnr })
-			end)
+			vim.api.nvim_create_autocmd("LspAttach", {
+				desc = "LSP actions",
+				callback = function(event)
+					local opts = { buffer = event.buf }
 
-			local cmp = require("cmp")
+					-- these will be buffer-local keybindings
+					-- because they only work if you have an active language server
 
-			cmp.setup({
-				sources = {
-					{ name = "nvim_lsp" },
-				},
-				snippet = {
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
-				}),
+					vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
+					vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+					vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
+					vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+					vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+					vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
+					vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
+					vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+				end,
 			})
-
-			lsp.setup()
-			vim.diagnostic.config({ virtual_text = false })
-
-			require("mason").setup({ ui = { border = "single" } })
+			require("mason").setup({})
+			local lsp = require("lspconfig")
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "rust_analyzer" },
+				ensure_installed = {},
 				handlers = {
 					function(server_name)
-						require("lspconfig")[server_name].setup({})
+						lsp[server_name].setup({
+							capabilities = require("blink.cmp").get_lsp_capabilities(),
+						})
+					end,
+					lua_ls = function()
+						lsp.lua_ls.setup({
+							capabilities = require("blink.cmp").get_lsp_capabilities(),
+							settings = {
+								Lua = {
+									diagnostics = {
+										globals = { "vim" },
+									},
+								},
+							},
+						})
+					end,
+					emmet_language_server = function()
+						lsp.emmet_language_server.setup({
+							capabilities = require("blink.cmp").get_lsp_capabilities(),
+							filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
+						})
 					end,
 				},
 			})
-
-			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-
-			require("lspconfig").emmet_language_server.setup({
-				filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
-			})
 		end,
+	},
+	{
+		"saghen/blink.cmp",
+		lazy = false,
+		version = "v0.*",
+		opts = {
+			keymap = { preset = "enter" },
+			appearance = {
+				use_nvim_cmp_as_default = true,
+				nerd_font_variant = "mono",
+			},
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+			-- experimental auto-brackets support
+			-- completion = { accept = { auto_brackets = { enabled = true } } },
+
+			-- experimental signature help support
+			-- signature = { enabled = true }
+		},
+		-- opts_extend = { "sources.completion.enabled_providers" },
 	},
 	{
 		"smjonas/inc-rename.nvim",
