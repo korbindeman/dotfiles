@@ -3,10 +3,33 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
 		},
-		config = function()
+		opts = {
+			servers = {
+				lua_ls = {
+					settings = {
+						Lua = {
+							diagnostics = {
+								globals = { "vim" },
+							},
+						},
+					},
+				},
+				emmet_language_server = {
+					capabilities = require("blink.cmp").get_lsp_capabilities(),
+					filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
+				},
+				ts_ls = {},
+				gopls = {},
+				templ = {},
+				htmx = {},
+				tailwindcss = {},
+				pyright = {},
+				rust_analyzer = {},
+			},
+		},
+		config = function(_, opts)
 			-- note: diagnostics are not exclusive to lsp servers
 			-- so these can be global keybindings
 			vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
@@ -31,58 +54,17 @@ return {
 					vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 				end,
 			})
-			require("mason").setup({})
-			local lsp = require("lspconfig")
-			require("mason-lspconfig").setup({
-				ensure_installed = {},
-				handlers = {
-					function(server_name)
-						lsp[server_name].setup({
-							capabilities = require("blink.cmp").get_lsp_capabilities(),
-						})
-					end,
-					lua_ls = function()
-						lsp.lua_ls.setup({
-							capabilities = require("blink.cmp").get_lsp_capabilities(),
-							settings = {
-								Lua = {
-									diagnostics = {
-										globals = { "vim" },
-									},
-								},
-							},
-						})
-					end,
-					emmet_language_server = function()
-						lsp.emmet_language_server.setup({
-							capabilities = require("blink.cmp").get_lsp_capabilities(),
-							filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
-						})
-					end,
-				},
-			})
-		end,
-	},
-	{
-		"saghen/blink.cmp",
-		lazy = false,
-		version = "v0.*",
-		opts = {
-			keymap = { preset = "enter" },
-			appearance = {
-				use_nvim_cmp_as_default = true,
-				nerd_font_variant = "mono",
-			},
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
-			},
-			-- experimental auto-brackets support
-			-- completion = { accept = { auto_brackets = { enabled = true } } },
 
-			-- experimental signature help support
-			-- signature = { enabled = true }
-		},
-		-- opts_extend = { "sources.completion.enabled_providers" },
+			require("mason").setup()
+
+			local lspconfig = require("lspconfig")
+			for server, config in pairs(opts.servers) do
+				-- passing config.capabilities to blink.cmp merges with the capabilities in your
+				-- `opts[server].capabilities, if you've defined it
+				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+				lspconfig[server].setup(config)
+			end
+		end,
 	},
 	{
 		"smjonas/inc-rename.nvim",
