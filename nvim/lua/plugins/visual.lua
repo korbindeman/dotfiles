@@ -6,15 +6,18 @@ return {
 		priority = 1000,
 	},
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
-	{
-		"korbindeman/nvim-nonicons",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = true,
-	},
+	-- {
+	-- 	"korbindeman/nvim-nonicons",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = true,
+	-- },
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = { scope = { enabled = false } },
+	},
+	{
+		"nvim-tree/nvim-web-devicons",
 	},
 	{
 		"b0o/incline.nvim",
