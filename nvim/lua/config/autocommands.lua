@@ -1,15 +1,13 @@
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
+-- highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
--- Define an autocommand that changes the directory to the current working directory on VimEnter
+-- change directory to the current working directory on VimEnter
 vim.api.nvim_create_autocmd("VimEnter", {
 	group = vim.api.nvim_create_augroup("cdpwd", { clear = true }),
 	callback = function()
@@ -24,4 +22,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			vim.fn.chdir(vim.loop.cwd())
 		end
 	end,
+})
+
+-- disable comment on newlines
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	command = "setlocal formatoptions-=o",
 })
