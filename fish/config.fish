@@ -7,7 +7,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 alias nconf 'nvim ~/.config/nvim'
-alias dev 'cd ~/dev'
+alias fconf 'nvim ~/.config/fish'
+alias lg 'lazygit'
+
+zoxide init --cmd cd fish | source
 
 function archive
     if test (count $argv) -eq 0
@@ -32,5 +35,5 @@ function archive
     set archived_item "$archive_dir/$base_name-$timestamp"
 
     mv $item $archived_item
-    echo "Archived '$item' to '$archived_item'"
+    echo "Archived '$item'"
 end

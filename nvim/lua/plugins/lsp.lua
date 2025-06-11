@@ -27,6 +27,7 @@ return {
 				tailwindcss = {},
 				pyright = {},
 				rust_analyzer = {},
+				hls = {},
 			},
 		},
 		config = function(_, opts)

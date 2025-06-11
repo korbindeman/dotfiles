@@ -5,6 +5,7 @@ return {
 		lazy = false,
 		priority = 1000,
 	},
+	{ "kepano/flexoki-neovim", name = "flexoki" },
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
 	-- {
 	-- 	"korbindeman/nvim-nonicons",
