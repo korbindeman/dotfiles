@@ -24,3 +24,14 @@ require("lazy").setup("plugins", {
 })
 
 vim.cmd.colorscheme(colorscheme)
+
+-- MY OWN CMD PLUGIN --
+require("project_cmds").setup()
+
+-- keymaps (optional)
+vim.keymap.set("n", "<leader>rp", function()
+	require("project_cmds").pick()
+end, { desc = "Pick project command" })
+vim.keymap.set("n", "<leader>rr", function()
+	require("project_cmds").rerun_last()
+end, { desc = "Re-run last project command" })

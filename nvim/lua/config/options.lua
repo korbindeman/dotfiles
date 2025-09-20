@@ -46,6 +46,7 @@ vim.opt.undofile = true
 vim.opt.undolevels = 10000
 vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+vim.opt.winborder = "rounded"
 vim.opt.winminwidth = 5 -- Minimum window width
 -- vim.opt.wrap = false                   -- Disable line wrap
 

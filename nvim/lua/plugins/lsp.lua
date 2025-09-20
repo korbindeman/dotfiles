@@ -18,7 +18,7 @@ return {
 				},
 				emmet_language_server = {
 					capabilities = require("blink.cmp").get_lsp_capabilities(),
-					filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact" },
+					filetypes = { "templ", "html", "css", "javascriptreact", "typescriptreact", "astro" },
 				},
 				ts_ls = {},
 				gopls = {},
@@ -28,6 +28,7 @@ return {
 				pyright = {},
 				rust_analyzer = {},
 				hls = {},
+				astro = {},
 			},
 		},
 		config = function(_, opts)

@@ -7,33 +7,46 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 alias nconf 'nvim ~/.config/nvim'
-alias fconf 'nvim ~/.config/fish'
+alias fconf 'nvim ~/.config/fish/config.fish'
 alias lg 'lazygit'
+
+alias missing 'python3 ~/dev/_scripts/missing.py'
+alias backup 'python3 ~/dev/_scripts/backup.py'
+alias archive 'python3 ~/dev/_scripts/archive.py'
+alias cleanup 'python3 ~/dev/_scripts/cleanup.py'
 
 zoxide init --cmd cd fish | source
 
-function archive
-    if test (count $argv) -eq 0
-        echo "Usage: archive <file_or_folder>"
-        return 1
+pyenv init - fish | source
+
+set -g -x PIP_REQUIRE_VIRTUALENV true
+
+function auto_activate_venv --on-variable PWD --description "Auto activate/deactivate virtualenv when I change directories"
+
+    # Get the top-level directory of the current Git repo (if any)
+    set REPO_ROOT (git rev-parse --show-toplevel 2>/dev/null)
+
+    # Case #1: cd'd from a Git repo to a non-Git folder
+    #
+    # There's no virtualenv to activate, and we want to deactivate any
+    # virtualenv which is already active.
+    if test -z "$REPO_ROOT"; and test -n "$VIRTUAL_ENV"
+        deactivate
     end
 
-    set item $argv[1]
-    set archive_dir "_archive"
-
-    if not test -e $item
-        echo "Error: '$item' does not exist."
-        return 1
+    # Case #2: cd'd folders within the same Git repo
+    #
+    # The virtualenv for this Git repo is already activated, so there's
+    # nothing more to do.
+    if [ "$VIRTUAL_ENV" = "$REPO_ROOT/.venv" ]
+        return
     end
 
-    if not test -d $archive_dir
-        mkdir $archive_dir
+    # Case #3: cd'd from a non-Git folder into a Git repo
+    #
+    # If there's a virtualenv in the root of this repo, we should
+    # activate it now.
+    if [ -d "$REPO_ROOT/.venv" ]
+        source "$REPO_ROOT/.venv/bin/activate.fish" &>/dev/null
     end
-
-    set timestamp (date +"%Y%m%d%H%M%S")
-    set base_name (basename $item)
-    set archived_item "$archive_dir/$base_name-$timestamp"
-
-    mv $item $archived_item
-    echo "Archived '$item'"
 end
